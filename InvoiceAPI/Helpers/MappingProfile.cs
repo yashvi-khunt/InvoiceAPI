@@ -9,8 +9,11 @@ namespace InvoiceAPI.Helpers
         public MappingProfile() 
         {
             CreateMap<Manufacturer, ManufacturerDTO>().ReverseMap();
-            CreateMap<ManufacturerCreationDTO, Manufacturer>(); CreateMap<Product, ProductDTO>().ReverseMap();
+            CreateMap<ManufacturerCreationDTO, Manufacturer>();
+            CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<ProductCreationDTO, Product>();
+            CreateMap<Rate, RateDTO>().ReverseMap();
+            CreateMap<RateCreationDTO, Rate>();
         }
     }
 }

@@ -39,11 +39,9 @@ namespace InvoiceAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] ProductCreationDTO productCreation)
         {
-           var exists =await _context.Products.AnyAsync(m=>m.Name == productCreation.Name);
-            if (exists)
-            {
-               
-            }
+           //some code for duplicate entry
+
+            //
             var product = mapper.Map<Product>(productCreation);
             _context.Add(product);
             await _context.SaveChangesAsync();
@@ -57,7 +55,9 @@ namespace InvoiceAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] ProductCreationDTO productCreation)
         {
+            //some code for duplicate entry
 
+            //
             var productDB = await _context.Products.Where(m => m.IsDeleted == false).FirstOrDefaultAsync(m => m.Id == id);
 
             if (productDB == null) { return NotFound(); }

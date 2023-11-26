@@ -42,7 +42,9 @@ namespace InvoiceAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] ManufacturerCreationDTO manufacturerCreation)
         {
+            //duplicate entry
 
+            //
             var manufacturer = mapper.Map<Manufacturer>(manufacturerCreation);
             _context.Add(manufacturer);
             await _context.SaveChangesAsync();
@@ -55,7 +57,9 @@ namespace InvoiceAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] ManufacturerCreationDTO manufacturerCreation)
         {
+            //duplicate entry
 
+            //
             var manufacturerDB = await _context.Manufacturers.Where(m => m.IsDeleted == false).FirstOrDefaultAsync(m => m.Id == id);
 
             if (manufacturerDB == null) { return NotFound(); }
