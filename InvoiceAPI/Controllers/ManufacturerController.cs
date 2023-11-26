@@ -64,8 +64,9 @@ namespace InvoiceAPI.Controllers
 
             if (manufacturerDB == null) { return NotFound(); }
 
-             var manufacturer = mapper.Map<Manufacturer>(manufacturerCreation);
-            manufacturerDB.Name = manufacturer.Name;
+              manufacturerDB = mapper.Map<Manufacturer>(manufacturerCreation);
+            manufacturerDB.Id = id;
+            manufacturerDB.IsDeleted = false;
             _context.Entry(manufacturerDB).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

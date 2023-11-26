@@ -63,8 +63,9 @@ namespace InvoiceAPI.Controllers
 
             if (rateDB == null) { return NotFound(); }
 
-            var rate = mapper.Map<Rate>(rateCreation);
-            rateDB.Amount = rate.Amount;
+             rateDB = mapper.Map<Rate>(rateCreation);
+            rateDB.Id = id;
+            rateDB.IsDeleted = false;
             _context.Entry(rateDB).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

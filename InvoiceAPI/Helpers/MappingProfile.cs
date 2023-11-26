@@ -14,6 +14,8 @@ namespace InvoiceAPI.Helpers
             CreateMap<ProductCreationDTO, Product>();
             CreateMap<Rate, RateDTO>().ReverseMap();
             CreateMap<RateCreationDTO, Rate>();
+            CreateMap<PurchaseHistory, PurchaseHistoryDTO>().ReverseMap();
+            CreateMap<PurchaseHistoryCreationDTO, PurchaseHistory>();
         }
     }
 }

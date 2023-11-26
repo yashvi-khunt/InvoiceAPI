@@ -62,8 +62,9 @@ namespace InvoiceAPI.Controllers
 
             if (productDB == null) { return NotFound(); }
 
-            var product = mapper.Map<Product>(productCreation);
-            productDB.Name = product.Name;
+             productDB = mapper.Map<Product>(productCreation);
+            productDB.Id = id;
+            productDB.IsDeleted = false;
             _context.Entry(productDB).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
