@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using InvoiceAPI.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace InvoiceAPI.DTOs
 {
@@ -6,6 +7,7 @@ namespace InvoiceAPI.DTOs
     {
         [Required]
         [StringLength(50)]
+        [FirstLetterCapital]
         public string Name {  get; set; }
     }
 }
