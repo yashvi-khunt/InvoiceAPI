@@ -59,14 +59,22 @@ namespace InvoiceAPI.Controllers
         {
             //duplicate entry
 
+            var isDuplicate = await _context.Manufacturers
+        .AnyAsync(p =>  p.Name == manufacturerCreation.Name && p.IsDeleted == false);
+            if (isDuplicate)
+            {
+                // Handle duplicate entry, for example, return a conflict response
+                return Conflict("Product with the same name already exists.");
+            }
             //
             var manufacturerDB = await _context.Manufacturers.Where(m => m.IsDeleted == false).FirstOrDefaultAsync(m => m.Id == id);
 
             if (manufacturerDB == null) { return NotFound(); }
 
-              manufacturerDB = mapper.Map<Manufacturer>(manufacturerCreation);
-            manufacturerDB.Id = id;
-            manufacturerDB.IsDeleted = false;
+              //manufacturerDB = mapper.Map<Manufacturer>(manufacturerCreation);
+            //manufacturerDB.Id = id;
+            //manufacturerDB.IsDeleted = false;
+            mapper.Map(manufacturerCreation,manufacturerDB);
             _context.Entry(manufacturerDB).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

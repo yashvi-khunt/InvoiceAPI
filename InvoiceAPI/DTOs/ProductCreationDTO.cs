@@ -11,8 +11,7 @@ namespace InvoiceAPI.DTOs
 
         [Required]
         public int ManufacturerId { get; set; }
-      
-        public bool isDeleted = false;
+     
     }
 }
  

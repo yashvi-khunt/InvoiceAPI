@@ -56,15 +56,19 @@ namespace InvoiceAPI.Controllers
         public async Task<ActionResult> Put(int id, [FromBody] ProductCreationDTO productCreation)
         {
             //some code for duplicate entry
+            var isDuplicate = await _context.Products
+        .AnyAsync(p => p.Name == productCreation.Name && p.ManufacturerId == productCreation.ManufacturerId && p.IsDeleted == false);
 
-            //
+            if (isDuplicate)
+            {
+                return Conflict("Product with the same name already exists.");
+            }
+           
             var productDB = await _context.Products.Where(m => m.IsDeleted == false).FirstOrDefaultAsync(m => m.Id == id);
 
             if (productDB == null) { return NotFound(); }
 
-             productDB = mapper.Map<Product>(productCreation);
-            productDB.Id = id;
-            productDB.IsDeleted = false;
+            mapper.Map(productCreation, productDB);
             _context.Entry(productDB).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

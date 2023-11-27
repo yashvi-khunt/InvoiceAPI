@@ -56,16 +56,19 @@ namespace InvoiceAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] RateCreationDTO rateCreation)
         {
-            //some code for duplicate entry
+            var isDuplicate = await _context.Rates
+        .AnyAsync(p => p.Amount == rateCreation.Amount && p.ProductId == rateCreation.ProductId && p.IsDeleted == false);
 
-            //
+            if (isDuplicate)
+            {
+                return Conflict("Rate with the same amount already exists.");
+            }
+
             var rateDB = await _context.Rates.Where(m => m.IsDeleted == false).FirstOrDefaultAsync(m => m.Id == id);
 
             if (rateDB == null) { return NotFound(); }
 
-             rateDB = mapper.Map<Rate>(rateCreation);
-            rateDB.Id = id;
-            rateDB.IsDeleted = false;
+            mapper.Map(rateCreation, rateDB);
             _context.Entry(rateDB).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
