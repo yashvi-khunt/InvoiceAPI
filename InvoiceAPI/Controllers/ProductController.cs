@@ -24,6 +24,22 @@ namespace InvoiceAPI.Controllers
             var products = await _context.Products.Where(m => m.IsDeleted == false).ToListAsync();
             var productsDTO = mapper.Map<List<ProductDTO>>(products);
             return productsDTO;
+            //     var products = await _context.Products
+            //.Where(m => m.IsDeleted == false)
+            //.Join(
+            //    _context.Manufacturers,
+            //    product => product.ManufacturerId,
+            //    manufacturer => manufacturer.Id,
+            //    (product, manufacturer) => new ProductDTO
+            //    {
+            //        Id = product.Id,
+            //        Name = product.Name,
+            //        ManufacturerId = product.ManufacturerId,
+            //        ManufacturerName = manufacturer.Name
+            //    }
+            //)
+            //.ToListAsync();
+            //     return products;
         }
 
         [HttpGet("{id}", Name = "getProduct")]
@@ -39,13 +55,13 @@ namespace InvoiceAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] ProductCreationDTO productCreation)
         {
-           //some code for duplicate entry
+            //some code for duplicate entry
 
             //
             var product = mapper.Map<Product>(productCreation);
             _context.Add(product);
             await _context.SaveChangesAsync();
-            
+
             var productDTO = mapper.Map<ProductDTO>(product);
 
             return new CreatedAtRouteResult("getProduct", new { id = product.Id }, productDTO);
@@ -63,7 +79,7 @@ namespace InvoiceAPI.Controllers
             {
                 return Conflict("Product with the same name already exists.");
             }
-           
+
             var productDB = await _context.Products.Where(m => m.IsDeleted == false).FirstOrDefaultAsync(m => m.Id == id);
 
             if (productDB == null) { return NotFound(); }

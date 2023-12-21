@@ -4,11 +4,11 @@ namespace InvoiceAPI.DTOs
 {
 	public class RateCreationDTO
 	{
-        [RestrictNegativeValue]
-        public float Amount { get; set; }
+		[RestrictNegativeValue]
+		public float Amount { get; set; }
 		public DateTime Date { get; set; }
-        [RestrictNegativeValue]
-        public int ProductId { get; set; }
+		[RestrictNegativeValue]
+		public int ProductId { get; set; }
 	}
 }
 
