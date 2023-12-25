@@ -1,4 +1,5 @@
 using InvoiceAPI.Models;
+using Microsoft.AspNetCore.Builder;
 
 namespace InvoiceAPI
 {
@@ -9,6 +10,7 @@ namespace InvoiceAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -18,6 +20,7 @@ namespace InvoiceAPI
             //
             builder.Services.AddDbContext<InvoiceAPIContext>();
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
+            builder.Services.AddCors();
 
             var app = builder.Build();
 
@@ -26,6 +29,8 @@ namespace InvoiceAPI
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             }
 
             app.UseHttpsRedirection();

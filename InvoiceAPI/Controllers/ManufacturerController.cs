@@ -43,7 +43,15 @@ namespace InvoiceAPI.Controllers
         public async Task<ActionResult> Post([FromBody] ManufacturerCreationDTO manufacturerCreation)
         {
             //duplicate entry
-
+            var isDuplicate = await _context.Manufacturers
+        .AnyAsync(p => p.Name == manufacturerCreation.Name);
+            var isDeleted = await _context.Manufacturers
+        .AnyAsync(p => p.Name == manufacturerCreation.Name && p.IsDeleted == true);
+            if (isDuplicate)
+            {
+                // Handle duplicate entry, for example, return a conflict response
+                return Conflict("Product with the same name already exists.");
+            }
             //
             var manufacturer = mapper.Map<Manufacturer>(manufacturerCreation);
             _context.Add(manufacturer);
